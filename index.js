@@ -1,13 +1,32 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-//delete on prod
-const port = process.env.PORT??3000;
+// Set your app credentials
+const credentials = {
+  apiKey: "dd1f59821837d0c9864b0570905c7f5e1961be75d1dc06aca1020ebcc67af327",
+  username: "acam-at-airtime",
+};
 
-const recommendations = [
-    "This is egg stage",
-    "Medium larvae",
-    "Mature larvae"
-]
+// Initialize the SDK
+const AfricasTalking = require("africastalking")(credentials);
+
+// Get the SMS service
+const sms = AfricasTalking.SMS;
+
+function sendMessage(to, message) {
+  const options = {
+    // Set the numbers you want to send to in international format
+    to: [to],
+    // Set your message
+    message: message,
+  };
+
+  // That’s it, hit send and we’ll take care of the rest
+  sms.send(options).then(console.log).catch(console.log);
+}
+
+const port = process.env.PORT ?? 3000;
+
+const recommendations = ["This is egg stage", "Medium larvae", "Mature larvae"];
 
 const app = express();
 app.use(bodyParser.json());
@@ -46,7 +65,11 @@ app.post("/ussd", (req, res) => {
     } else if (/B/.test(text)) {
       stage = 1;
     }
-    response = `END Utapokea mapendekezo hivi punde (${recommendations[stage]})`;
+    response = `END Utapokea mapendekezo hivi punde??`;
+    setTimeout(()=>{
+      sendMessage(phoneNumber,recommendations[stage])
+    },1000);
+    
   }
   res.set("Content-Type: text/plain");
   res.send(response);
