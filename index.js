@@ -24,11 +24,11 @@ app.post("/ussd", (req, res) => {
         1. Ndio
         2. Hapana`;
   } else if (text == "1") {
-    response = `Ingiza geresho la mdudu unae muona shambani mwako;`;
+    response = `CON Ingiza geresho la mdudu unae muona shambani mwako;`;
   } else if (text == "2") {
     response = `END Asante karibu tena`;
   } else if (text == "1*A" || text == "1*B" || text == "1*C") {
-    response = `Ingiza geresho la pili la mdudu unae muona shambani mwako;`;
+    response = `CON Ingiza geresho la pili la mdudu unae muona shambani mwako;`;
   } else if (
     text == "1*A*A" ||
     text == "1*A*B" ||
